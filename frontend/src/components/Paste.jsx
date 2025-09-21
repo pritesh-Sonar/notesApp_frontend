@@ -22,12 +22,12 @@ const Paste = () => {
   function handleUpdate() {
     const title = titleRef.current;
     axios
-      .post("http://localhost:3001/update", { email, title })
+      .post("https://note-app-backend-gold.vercel.app/update", { email, title })
       .then((result) => {
         userRef.current = result.data;
         const userData = userRef.current;
 
-        axios.post("http://localhost:3001/home/update", userData);
+        axios.post("https://note-app-backend-gold.vercel.app/home/update", userData);
         navigate("/update");
       })
       .catch((err) => {
@@ -44,7 +44,7 @@ const Paste = () => {
   function handleNoteDelete() {
     console.log(userTitle);
     axios
-      .post("http://localhost:3001/delete", { email, userTitle })
+      .post("https://note-app-backend-gold.vercel.app/delete", { email, userTitle })
       .then((res) => {
         if (res) {
           toast.success("Note deleted successfully");
@@ -68,7 +68,7 @@ const Paste = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/pastes", { email })
+      .post("https://note-app-backend-gold.vercel.app/pastes", { email })
       .then((result) => {
         if (result) {
           setUser(result.data);
