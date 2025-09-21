@@ -112,6 +112,7 @@ const Paste = () => {
                       className="p-2 rounded-[0.2rem] bg-white border border-[#c7c7c7]  hover:bg-transparent group hover:border-blue-500"
                       onClick={() => {
                         titleRef.current = arr.title;
+                        contentRef.current = arr.value;
                         handleUpdate();
                       }}
                     >
