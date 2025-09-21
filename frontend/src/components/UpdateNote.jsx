@@ -38,11 +38,13 @@ const UpdateNote = () => {
     axios
       .get("https://note-app-backend-gold.vercel.app/home/data")
       .then((result) => {
-        updateRef.current = result.data;
+        if(result){
+          updateRef.current = result.data;
         // console.log(updateRef.current);
         setTitle(updateRef.current.title);
         setValue(updateRef.current.value);
         setEmail(updateRef.current.userEmail);
+        }  
       })
       .catch((err) => {
         console.log(err);
@@ -53,8 +55,10 @@ const UpdateNote = () => {
     axios
       .get("https://note-app-backend-gold.vercel.app/home/data")
       .then((result) => {
-        updateRef.current = result.data;
-        setPrevTitle(updateRef.current.title);
+        if(result){
+          updateRef.current = result.data;
+          setPrevTitle(updateRef.current.title);
+        }
       })
       .catch((err) => {
         console.log(err);
