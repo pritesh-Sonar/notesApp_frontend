@@ -16,7 +16,7 @@ const Navbar = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/user", { email })
+      .post("https://note-app-backend-gold.vercel.app/user", { email })
       .then((result) => {
         setUserName(result.data);
       })
