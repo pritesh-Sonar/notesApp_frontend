@@ -35,34 +35,19 @@ const UpdateNote = () => {
   };
 
   useEffect(() => {
-    axios
-      .get("https://note-app-backend-gold.vercel.app/home/data")
-      .then((result) => {
-        if(result){
-          updateRef.current = result.data;
-        // console.log(updateRef.current);
-        setTitle(updateRef.current.title);
-        setValue(updateRef.current.value);
-        setEmail(updateRef.current.userEmail);
-        }  
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("https://note-app-backend-gold.vercel.app/home/data")
-      .then((result) => {
-        if(result){
-          updateRef.current = result.data;
-          setPrevTitle(updateRef.current.title);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const UpdateTitle = JSON.parse(localStorage.getItem("Updatetitle"));
+    if (UpdateTitle) {
+      setTitle(UpdateTitle);
+      setPrevTitle(UpdateTitle);
+    }
+    const UpdateContent = JSON.parse(localStorage.getItem("Updatecontent"));
+    if (UpdateContent) {
+      setValue(UpdateContent);
+    }
+    const Useremail = JSON.parse(localStorage.getItem("user"));
+    if (Useremail) {
+      setEmail(Useremail);
+    }
   }, []);
 
   return (
