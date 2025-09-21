@@ -19,7 +19,7 @@ const Home = () => {
       alert("Please enter information correctly !!");
     } else {
       axios
-        .post("http://localhost:3001/home/create", {
+        .post("notes-app-frontend-ylpq.vercel.app/home/create", {
           title,
           value,
           userEmail,
