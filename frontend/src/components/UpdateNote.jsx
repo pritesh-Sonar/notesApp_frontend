@@ -35,7 +35,7 @@ const UpdateNote = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/home/data")
+      .get("https://note-app-backend-gold.vercel.app/home/data")
       .then((result) => {
         updateRef.current = result.data;
         // console.log(updateRef.current);
@@ -50,7 +50,7 @@ const UpdateNote = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/home/data")
+      .get("https://note-app-backend-gold.vercel.app/home/data")
       .then((result) => {
         updateRef.current = result.data;
         setPrevTitle(updateRef.current.title);
