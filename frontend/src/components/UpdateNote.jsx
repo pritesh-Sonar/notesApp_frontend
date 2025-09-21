@@ -13,6 +13,7 @@ const UpdateNote = () => {
   const navigate = useNavigate();
 
   const updateRef = useRef();
+  const getuserRef = useRef();
 
   const handleUpdate = () => {
     axios
@@ -52,8 +53,8 @@ const UpdateNote = () => {
     axios
       .get("https://note-app-backend-gold.vercel.app/home/data")
       .then((result) => {
-        updateRef.current = result.data;
-        setPrevTitle(updateRef.current.title);
+        getuserRef.current = result.data;
+        setPrevTitle(getuserRef.current.title);
       })
       .catch((err) => {
         console.log(err);
