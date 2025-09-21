@@ -48,6 +48,7 @@ const Paste = () => {
       .then((res) => {
         if (res) {
           toast.success("Note deleted successfully");
+          window.location.reload();
         } else {
           toast.error("error occured to delete note");
         }
