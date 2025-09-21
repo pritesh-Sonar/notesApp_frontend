@@ -14,7 +14,7 @@ const Signup = () => {
       toast.error("Enter valid details");
     } else {
       axios
-        .post("http://localhost:3001/Signup", { name, email, password })
+        .post("https://note-app-backend-gold.vercel.app/Signup", { name, email, password })
         .then((result) => {
           navigate("/Login");
           toast.success("user registered Successfully");
