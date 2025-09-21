@@ -14,7 +14,7 @@ const ResetPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:3001/reset-password/${id}/${token}`, { password })
+      .post(`https://note-app-backend-gold.vercel.app/reset-password/${id}/${token}`, { password })
       .then((res) => {
         if (res.data.Status === "Success") {
           toast.success("Password Changed Successfully !!!");
