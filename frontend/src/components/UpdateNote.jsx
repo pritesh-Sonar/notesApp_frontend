@@ -16,7 +16,7 @@ const UpdateNote = () => {
 
   const handleUpdate = () => {
     axios
-      .post("http://localhost:3001/updatePost", {
+      .post("https://note-app-backend-gold.vercel.app/updatePost", {
         email,
         title,
         value,
