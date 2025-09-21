@@ -13,7 +13,7 @@ const Forgot_password = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("notes-app-frontend-ylpq.vercel.app/forgot-password", { email })
+      .post("https://note-app-backend-gold.vercel.app/forgot-password", { email })
       .then((res) => {
         if (res.data.Status === "Success") {
           toast.success("Password change link send to email");
