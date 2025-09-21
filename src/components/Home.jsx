@@ -1,59 +1,56 @@
-import { Copy, PlusCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Copy } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { addToPastes, updatePastes } from "../redux/pasteSlice";
-import { useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams(); // Destructure useSearchParams
-  const pasteId = searchParams.get("pasteId"); // Get pasteId from the search params
-  const pastes = useSelector((state) => state.paste.pastes);
-  const dispatch = useDispatch();
+  const [user, setUser] = useState();
 
   const createPaste = () => {
-    const paste = {
-      title: title,
-      content: value,
-      _id:
-        pasteId ||
-        Date.now().toString(36) + Math.random().toString(36).substring(2),
-      createdAt: new Date().toISOString(),
-    };
+    const currentDate = new Date();
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
 
-    if (pasteId) {
-      // If pasteId is present, update the paste
-      dispatch(updatePastes(paste));
+    const userEmail = user;
+    if (title === "" && value === "") {
+      alert("Please enter information correctly !!");
     } else {
-      dispatch(addToPastes(paste));
+      axios
+        .post("http://localhost:3001/home/create", {
+          title,
+          value,
+          userEmail,
+          date,
+          month,
+          year,
+        })
+        .then((result) => {
+          // console.log(result);
+          resetPaste();
+          toast.success("Note created Successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("fail to create Note");
+        });
     }
-
-    setTitle("");
-    setValue("");
-
-    // Remove the pasteId from the URL after creating/updating a paste
-    setSearchParams({});
   };
 
   const resetPaste = () => {
     setTitle("");
     setValue("");
-    setSearchParams({});
-    // navigate("/");
   };
 
   useEffect(() => {
-    if (pasteId) {
-      const paste = pastes.find((p) => p._id === pasteId);
-      if (paste) {
-        setTitle(paste.title);
-        setValue(paste.content);
-      }
+    // Get user from localStorage
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+    if (userInfo) {
+      setUser(userInfo);
     }
-  }, [pasteId, pastes]);
-
+  }, []);
 
   return (
     <div className="w-full h-full py-10 max-w-[1200px] mx-auto px-5 lg:px-0">
@@ -62,26 +59,17 @@ const Home = () => {
           <input
             type="text"
             placeholder="Title"
+            required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            // Dynamic width based on whether pasteId is present
-            className={`${
-              pasteId ? "w-[80%]" : "w-[85%]"
-            } text-black border border-input rounded-md p-2`}
+            className={"w-[85%] text-black border border-input rounded-md p-2"}
           />
           <button
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700"
             onClick={createPaste}
           >
-            {pasteId ? "Update Paste" : "Create My Paste"}
+            Create My Paste
           </button>
-
-        {pasteId &&  <button
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700"
-            onClick={resetPaste}
-          >
-            <PlusCircle size={20} />
-          </button>}
         </div>
 
         <div
@@ -99,7 +87,7 @@ const Home = () => {
 
               <div className="w-[13px] h-[13px] rounded-full flex items-center justify-center p-[1px] overflow-hidden bg-[rgb(45,200,66)]" />
             </div>
-            {/* Circle and copy btn */}
+
             <div
               className={`w-fit rounded-t flex items-center justify-between gap-x-4 px-4`}
             >
@@ -118,10 +106,10 @@ const Home = () => {
             </div>
           </div>
 
-          {/* TextArea */}
           <textarea
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            required
             placeholder="Write Your Content Here...."
             className="w-full p-3  focus-visible:ring-0"
             style={{

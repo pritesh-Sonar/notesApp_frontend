@@ -1,26 +1,29 @@
 import { Copy } from "lucide-react";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-
+import { useState, useRef, useEffect } from "react";
+import axios from "axios";
 const ViewPaste = () => {
-  const { id } = useParams();
+  const updateRef = useRef();
+  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
+  useEffect(() => {
+    const userTitle = JSON.parse(localStorage.getItem("title"));
+    if (userTitle) {
+      setTitle(userTitle);
+    }
+    const userContent = JSON.parse(localStorage.getItem("content"));
+    if (userContent) {
+      setValue(userContent);
+    }
+  }, []);
 
-  console.log(id)
-
-  const pastes = useSelector((state) => state.paste.pastes);
-
-  // Filter pastes based on search term (by title or content)
-  const paste = pastes.filter((paste) => paste._id === id)[0];
-
-  console.log("Paste->",paste);
   return (
     <div className="w-full h-full py-10 max-w-[1200px] mx-auto px-5 lg:px-0">
       <div className="flex flex-col gap-y-5 items-start">
         <input
           type="text"
           placeholder="Title"
-          value={paste.title}
+          value={title}
           disabled
           className="w-full text-black border border-input rounded-md p-2"
         />
@@ -47,7 +50,7 @@ const ViewPaste = () => {
               <button
                 className={`flex justify-center items-center  transition-all duration-300 ease-in-out group`}
                 onClick={() => {
-                  navigator.clipboard.writeText(paste.content);
+                  navigator.clipboard.writeText(value);
                   toast.success("Copied to Clipboard");
                 }}
               >
@@ -58,7 +61,7 @@ const ViewPaste = () => {
 
           {/* TextArea */}
           <textarea
-            value={paste.content}
+            value={value}
             disabled
             placeholder="Write Your Content Here...."
             className="w-full p-3  focus-visible:ring-0"
