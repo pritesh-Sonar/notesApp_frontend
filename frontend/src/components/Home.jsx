@@ -19,7 +19,7 @@ const Home = () => {
       alert("Please enter information correctly !!");
     } else {
       axios
-        .post("notes-app-frontend-ylpq.vercel.app/home/create", {
+        .post("https://note-app-backend-gold.vercel.app/home/create", {
           title,
           value,
           userEmail,
