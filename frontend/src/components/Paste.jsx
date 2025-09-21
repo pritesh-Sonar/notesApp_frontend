@@ -17,22 +17,11 @@ const Paste = () => {
   const userTitle = useRef();
   const contentRef = useRef();
 
-  let arr = [[]];
-
   function handleUpdate() {
-    const title = titleRef.current;
-    axios
-      .post("https://note-app-backend-gold.vercel.app/update", { email, title })
-      .then((result) => {
-        userRef.current = result.data;
-        const userData = userRef.current;
-
-        axios.post("https://note-app-backend-gold.vercel.app/home/update", userData);
-        navigate("/update");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    localStorage.setItem("Updatetitle", JSON.stringify(titleRef.current));
+    localStorage.setItem("Updatecontent", JSON.stringify(contentRef.current));
+    navigate("/update");
+    
   }
 
   function handleView() {
@@ -80,15 +69,6 @@ const Paste = () => {
       });
   }, [email]);
 
-  // if (user.length > 0) {
-  //   let i = 0;
-  //   // console.log("lenght of array " + user.length);
-  //   console.log(user);
-  //   while (i < user.length) {
-  //     arr.push([user[i].title, user[i].value]);
-  //     i = i + 1;
-  //   }
-  // }
   const filteredNotes = user.filter((note) => {
     const term = searchTerm.toLowerCase();
     const heading = note.title?.toLowerCase() || "";
