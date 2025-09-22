@@ -10,7 +10,7 @@ const Paste = () => {
   const navigate = useNavigate();
 
   //my code
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("user");
   const [user, setUser] = useState([]);
   const titleRef = useRef();
   const userRef = useRef();
